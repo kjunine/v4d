@@ -23,3 +23,25 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
+
+apt_repository "lxc-docker" do
+  uri "https://get.docker.io/ubuntu"
+  distribution "docker"
+  components ["main"]
+  keyserver "keyserver.ubuntu.com"
+  key "36A1D7869245C8950F966E92D8576A8BA88D21E9"
+end
+
+package "lxc-docker" do
+  action :upgrade
+end
+
+cookbook_file "/etc/default/docker" do
+  mode 00644
+  notifies :run, "execute[docker-restart]", :immediately
+end
+
+execute "docker-restart" do
+  command "service docker restart"
+  action :nothing
+end
