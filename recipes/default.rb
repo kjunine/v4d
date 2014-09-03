@@ -24,6 +24,35 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+user_id = "vagrant"
+
+%w{git curl wget zsh vim tmux tree htop iftop}.each do |pkg|
+  package pkg do
+    action :upgrade
+  end
+end
+
+execute "set-zsh" do
+  command "chsh -s $(which zsh) #{user_id}"
+end
+
+git "/home/#{user_id}/.oh-my-zsh" do
+  repository "https://github.com/robbyrussell/oh-my-zsh.git"
+  reference "master"
+  user user_id
+  group user_id
+  action :checkout
+  not_if "test -d /home/#{user_id}/.oh-my-zsh"
+end
+
+cookbook_file "/home/#{user_id}/.zshrc" do
+  source "zshrc"
+  mode 00644
+  owner user_id
+  group user_id
+  action :create_if_missing
+end
+
 apt_repository "lxc-docker" do
   uri "https://get.docker.io/ubuntu"
   distribution "docker"
