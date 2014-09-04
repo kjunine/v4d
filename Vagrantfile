@@ -78,10 +78,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :chef_solo do |chef|
     chef.json = {
+      "docker" => {
+        "host" => [
+          "unix:///var/run/docker.sock",
+          "tcp://0.0.0.0:2375"
+        ]
+      }
     }
 
     chef.run_list = [
-      "apt",
+      "docker",
       "v4d"
     ]
   end

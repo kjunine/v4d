@@ -53,24 +53,17 @@ cookbook_file "/home/#{user_id}/.zshrc" do
   action :create_if_missing
 end
 
-apt_repository "lxc-docker" do
-  uri "https://get.docker.io/ubuntu"
-  distribution "docker"
-  components ["main"]
-  keyserver "keyserver.ubuntu.com"
-  key "36A1D7869245C8950F966E92D8576A8BA88D21E9"
+docker_image 'kjunine/nginx' do
+  action :pull
+  notifies :redeploy, 'docker_container[nginx]', :immediately
 end
 
-package "lxc-docker" do
-  action :upgrade
-end
-
-cookbook_file "/etc/default/docker" do
-  mode 00644
-  notifies :run, "execute[docker-restart]", :immediately
-end
-
-execute "docker-restart" do
-  command "service docker restart"
-  action :nothing
+docker_container 'nginx' do
+  image 'kjunine/nginx'
+  container_name 'nginx'
+  entrypoint 'nginx'
+  command '-g "daemon off;"'
+  detach true
+  port '80:80'
+  action :run
 end
