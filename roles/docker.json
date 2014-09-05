@@ -1,0 +1,19 @@
+{
+  "name": "base",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "docker": {
+      "host": [
+        "unix:///var/run/docker.sock",
+        "tcp://0.0.0.0:2375"
+      ]
+    }
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[docker]"
+  ],
+  "env_run_lists": {}
+}

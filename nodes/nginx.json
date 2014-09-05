@@ -1,0 +1,9 @@
+{
+  "run_list": [
+    "role[docker]",
+    "recipe[docker-nginx]"
+  ],
+  "automatic": {
+    "ipaddress": "v4d"
+  }
+}

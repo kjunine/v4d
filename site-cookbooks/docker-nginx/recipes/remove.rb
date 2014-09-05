@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: v4d
+# Cookbook Name:: docker-test
 # Recipe:: default
 #
-# Copyright (C) 2014 Daniel Ku
+# Copyright 2014, Daniel Ku
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -24,46 +24,10 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-user_id = "vagrant"
-
-%w{git curl wget zsh vim tmux tree htop iftop}.each do |pkg|
-  package pkg do
-    action :upgrade
-  end
-end
-
-execute "set-zsh" do
-  command "chsh -s $(which zsh) #{user_id}"
-end
-
-git "/home/#{user_id}/.oh-my-zsh" do
-  repository "https://github.com/robbyrussell/oh-my-zsh.git"
-  reference "master"
-  user user_id
-  group user_id
-  action :checkout
-  not_if "test -d /home/#{user_id}/.oh-my-zsh"
-end
-
-cookbook_file "/home/#{user_id}/.zshrc" do
-  source "zshrc"
-  mode 00644
-  owner user_id
-  group user_id
-  action :create_if_missing
-end
-
-docker_image 'kjunine/nginx' do
-  action :pull
-  notifies :redeploy, 'docker_container[nginx]', :immediately
+docker_container 'nginx' do
+  action :stop
 end
 
 docker_container 'nginx' do
-  image 'kjunine/nginx'
-  container_name 'nginx'
-  entrypoint 'nginx'
-  command '-g "daemon off;"'
-  detach true
-  port '80:80'
-  action :run
+  action :remove
 end

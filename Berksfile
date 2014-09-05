@@ -1,5 +1,5 @@
 source "https://supermarket.getchef.com"
 
-metadata
+metadata path: 'site-cookbooks/v4d'
 
 cookbook 'docker'

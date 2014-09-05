@@ -11,17 +11,31 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.define "v4d"
+  config.omnibus.chef_version = :latest
+  config.berkshelf.enabled = true
 
+  config.vm.box = "chef/ubuntu-14.04"
+  config.vm.network "forwarded_port", guest: 2375, host: 2375
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+    chef.roles_path = "roles"
+    chef.environments_path = "environments"
+    chef.data_bags_path = "data_bags"
+    chef.add_role "base"
+    chef.add_role "docker"
+  end
+
+  config.vm.define "v4d"
   config.vm.hostname = "v4d"
+  config.vm.network "private_network", ip: "192.168.8.8"
 
   # Set the version of chef to install using the vagrant-omnibus plugin
-  config.omnibus.chef_version = :latest
+  # config.omnibus.chef_version = :latest
 
   # Every Vagrant virtual environment requires a box to build off of.
   # If this value is a shorthand to a box in Vagrant Cloud then
   # config.vm.box_url doesn't need to be specified.
-  config.vm.box = "chef/ubuntu-14.04"
+  # config.vm.box = "chef/ubuntu-14.04"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # is not a Vagrant Cloud box and if it doesn't already exist on the
@@ -33,8 +47,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # any other machines on the same network, but cannot be accessed (through this
   # network interface) by any external networks.
   # config.vm.network :private_network, type: "dhcp"
-  config.vm.network "forwarded_port", guest: 2375, host: 2375
-  config.vm.network "private_network", ip: "192.168.8.8"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -66,7 +78,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Enabling the Berkshelf plugin. To enable this globally, add this configuration
   # option to your ~/.vagrant.d/Vagrantfile file
-  config.berkshelf.enabled = true
+  # config.berkshelf.enabled = true
 
   # An array of symbols representing groups of cookbook described in the Vagrantfile
   # to exclusively install and copy to Vagrant's shelf.
@@ -75,20 +87,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # An array of symbols representing groups of cookbook described in the Vagrantfile
   # to skip installing and copying to Vagrant's shelf.
   # config.berkshelf.except = []
-
-  config.vm.provision :chef_solo do |chef|
-    chef.json = {
-      "docker" => {
-        "host" => [
-          "unix:///var/run/docker.sock",
-          "tcp://0.0.0.0:2375"
-        ]
-      }
-    }
-
-    chef.run_list = [
-      "docker",
-      "v4d"
-    ]
-  end
 end
