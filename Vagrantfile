@@ -22,7 +22,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.environments_path = "environments"
     chef.data_bags_path = "data_bags"
     chef.add_role "base"
-    chef.add_role "docker"
   end
 
   config.vm.define "v4d"
