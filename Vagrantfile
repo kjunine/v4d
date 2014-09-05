@@ -27,18 +27,44 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master.vm.hostname = "master"
     master.vm.network "private_network", ip: "192.168.8.10"
     master.vm.network "forwarded_port", guest: 2375, host: 2376
+
+    master.vm.provision :chef_solo do |chef|
+      chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+      chef.roles_path = "roles"
+      chef.environments_path = "environments"
+      chef.data_bags_path = "data_bags"
+      chef.add_role "mongodb"
+      chef.add_role "redis-master"
+    end
   end
 
   config.vm.define "v4d.slave" do |slave|
     slave.vm.hostname = "slave"
     slave.vm.network "private_network", ip: "192.168.8.11"
     slave.vm.network "forwarded_port", guest: 2375, host: 2377
+
+    slave.vm.provision :chef_solo do |chef|
+      chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+      chef.roles_path = "roles"
+      chef.environments_path = "environments"
+      chef.data_bags_path = "data_bags"
+      chef.add_role "mongodb"
+      chef.add_role "redis-slave"
+    end
   end
 
   config.vm.define "v4d.app" do |app|
     app.vm.hostname = "app"
     app.vm.network "private_network", ip: "192.168.8.20"
     app.vm.network "forwarded_port", guest: 2375, host: 2378
+
+    app.vm.provision :chef_solo do |chef|
+      chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+      chef.roles_path = "roles"
+      chef.environments_path = "environments"
+      chef.data_bags_path = "data_bags"
+      chef.add_role "app"
+    end
   end
 
   # Set the version of chef to install using the vagrant-omnibus plugin

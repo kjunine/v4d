@@ -1,0 +1,16 @@
+{
+  "name": "redis-slave",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "redis": {
+      "master": "192.168.8.10"
+    }
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[docker-redis::slave]"
+  ],
+  "env_run_lists": {}
+}

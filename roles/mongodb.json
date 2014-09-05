@@ -1,0 +1,16 @@
+{
+  "name": "mongodb",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "mongodb": {
+      "replSet": "v4d"
+    }
+  },
+  "override_attributes": {},
+  "chef_type": "role",
+  "run_list": [
+    "recipe[docker-mongodb::replica]"
+  ],
+  "env_run_lists": {}
+}
