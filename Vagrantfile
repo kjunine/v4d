@@ -15,7 +15,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.berkshelf.enabled = true
 
   config.vm.box = "chef/ubuntu-14.04"
-  config.vm.network "forwarded_port", guest: 2375, host: 2375
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
     chef.roles_path = "roles"
@@ -24,9 +23,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_role "base"
   end
 
-  config.vm.define "v4d"
-  config.vm.hostname = "v4d"
-  config.vm.network "private_network", ip: "192.168.8.8"
+  config.vm.define "v4d.master" do |master|
+    master.vm.hostname = "master"
+    master.vm.network "private_network", ip: "192.168.8.10"
+    master.vm.network "forwarded_port", guest: 2375, host: 2376
+  end
+
+  config.vm.define "v4d.slave" do |slave|
+    slave.vm.hostname = "slave"
+    slave.vm.network "private_network", ip: "192.168.8.11"
+    slave.vm.network "forwarded_port", guest: 2375, host: 2377
+  end
+
+  config.vm.define "v4d.app" do |app|
+    app.vm.hostname = "app"
+    app.vm.network "private_network", ip: "192.168.8.20"
+    app.vm.network "forwarded_port", guest: 2375, host: 2378
+  end
 
   # Set the version of chef to install using the vagrant-omnibus plugin
   # config.omnibus.chef_version = :latest
