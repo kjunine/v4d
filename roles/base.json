@@ -17,6 +17,7 @@
     "recipe[docker]",
     "recipe[docker-nginx]",
     "recipe[docker-mongodb]",
+    "recipe[docker-mongodb-replset-configurator]",
     "recipe[docker-redis]"
   ],
   "env_run_lists": {}

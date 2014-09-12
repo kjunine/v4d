@@ -2,3 +2,4 @@
 Berksfile.lock
 Gemfile.lock
 .vagrant
+package.box

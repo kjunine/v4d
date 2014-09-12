@@ -1,8 +1,0 @@
-{
-  "run_list": [
-    "recipe[docker-nginx::install]"
-  ],
-  "automatic": {
-    "ipaddress": "v4d"
-  }
-}

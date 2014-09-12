@@ -1,0 +1,12 @@
+{
+  "mongodb-replset-configurator": {
+    "id": "v4d",
+    "servers": [
+      "192.168.8.10:27017",
+      "192.168.8.11:27017"
+    ]
+  },
+  "run_list": [
+    "recipe[docker-mongodb-replset-configurator::run]"
+  ]
+}

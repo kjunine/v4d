@@ -1,8 +1,0 @@
-{
-  "run_list": [
-    "recipe[docker-nginx::remove]"
-  ],
-  "automatic": {
-    "ipaddress": "v4d"
-  }
-}
