@@ -10,7 +10,7 @@
   "override_attributes": {},
   "chef_type": "role",
   "run_list": [
-    "recipe[docker-mongodb::replica]"
+    "recipe[docker-mongodb::install-replica]"
   ],
   "env_run_lists": {}
 }

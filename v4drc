@@ -1,3 +1,5 @@
+alias vagrant.databses="VAGRANT_CWD=./vagrants/databases vagrant"
+alias vagrant.apps="VAGRANT_CWD=./vagrants/apps vagrant"
 alias docker.master="DOCKER_HOST=tcp://localhost:2376 docker"
 alias docker.slave="DOCKER_HOST=tcp://localhost:2377 docker"
 alias docker.app="DOCKER_HOST=tcp://localhost:2378 docker"

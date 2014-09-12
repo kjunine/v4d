@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: docker-nginx
+# Cookbook Name:: docker-mongodb
 # Recipe:: default
 #
 # Copyright 2014, Daniel Ku
@@ -24,6 +24,13 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-docker_image 'kjunine/nginx' do
-  action :pull
+docker_container 'mongodb' do
+  image 'kjunine/mongodb'
+  container_name 'mongodb'
+  entrypoint 'mongod'
+  command '--dbpath /data'
+  detach true
+  port '27017:27017'
+  volume '/data'
+  action :run
 end

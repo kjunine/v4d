@@ -14,7 +14,10 @@
   "chef_type": "role",
   "run_list": [
     "recipe[v4d]",
-    "recipe[docker]"
+    "recipe[docker]",
+    "recipe[docker-nginx]",
+    "recipe[docker-mongodb]",
+    "recipe[docker-redis]"
   ],
   "env_run_lists": {}
 }

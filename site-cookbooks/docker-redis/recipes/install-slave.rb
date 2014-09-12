@@ -24,11 +24,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-docker_image 'kjunine/redis' do
-  action :pull
-  notifies :redeploy, 'docker_container[redis]', :immediately
-end
-
 docker_container 'redis' do
   image 'kjunine/redis'
   container_name 'redis'

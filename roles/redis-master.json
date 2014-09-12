@@ -6,7 +6,7 @@
   "override_attributes": {},
   "chef_type": "role",
   "run_list": [
-    "recipe[docker-redis]"
+    "recipe[docker-redis::install]"
   ],
   "env_run_lists": {}
 }

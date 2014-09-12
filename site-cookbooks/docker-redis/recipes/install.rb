@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: docker-mongodb
+# Cookbook Name:: docker-redis
 # Recipe:: default
 #
 # Copyright 2014, Daniel Ku
@@ -24,18 +24,12 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-docker_image 'kjunine/mongodb' do
-  action :pull
-  notifies :redeploy, 'docker_container[mongodb]', :immediately
-end
-
-docker_container 'mongodb' do
-  image 'kjunine/mongodb'
-  container_name 'mongodb'
-  entrypoint 'mongod'
-  command "--dbpath /data --replSet #{node['mongodb']['replSet']}"
+docker_container 'redis' do
+  image 'kjunine/redis'
+  container_name 'redis'
+  entrypoint 'redis-server'
+  command '--port 6379'
   detach true
-  port '27017:27017'
-  volume '/data'
+  port '6379:6379'
   action :run
 end

@@ -26,16 +26,4 @@
 
 docker_image 'kjunine/mongodb' do
   action :pull
-  notifies :redeploy, 'docker_container[mongodb]', :immediately
-end
-
-docker_container 'mongodb' do
-  image 'kjunine/mongodb'
-  container_name 'mongodb'
-  entrypoint 'mongod'
-  command '--dbpath /data'
-  detach true
-  port '27017:27017'
-  volume '/data'
-  action :run
 end

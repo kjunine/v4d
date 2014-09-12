@@ -26,15 +26,4 @@
 
 docker_image 'kjunine/redis' do
   action :pull
-  notifies :redeploy, 'docker_container[redis]', :immediately
-end
-
-docker_container 'redis' do
-  image 'kjunine/redis'
-  container_name 'redis'
-  entrypoint 'redis-server'
-  command '--port 6379'
-  detach true
-  port '6379:6379'
-  action :run
 end
